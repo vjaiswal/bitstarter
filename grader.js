@@ -21,6 +21,8 @@ References:
    - https://developer.mozilla.org/en-US/docs/JSON#JSON_in_Firefox_2
 */
 
+/*jshint smarttabs:true */
+
 var fs = require('fs');
 var program = require('commander');
 var cheerio = require('cheerio');
@@ -28,7 +30,6 @@ var util = require('util');
 var rest = require('restler');
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
-var URL_DEFAULT = "http://google.com";
 
 var assertFileExists = function(infile) {
     var instr = infile.toString();
@@ -80,12 +81,12 @@ var clone = function(fn) {
 var handleurl = function(checksfile){
     var urlhandler = function(result, response){
 	if(result instanceof Error){
-	    console.log(3);
+	    //console.log(3);
 	    console.error('Error: ' + util.format(result));
-	    console.log(4);
+	    //console.log(4);
 	} else {
-	    console.log(5);
-	    console.log(result);
+	    //console.log(5)
+	    //console.log(result);
 
 	    var checks = loadChecks(checksfile).sort();
 
@@ -96,8 +97,8 @@ var handleurl = function(checksfile){
 		out[checks[ii]] = present;
 	    }
 
-//	    var checks = loadChecks(checksfile).sort();
-	    console.log("success..");
+	    //var checks = loadChecks(checksfile).sort();
+	    //console.log("success..");
 
 	    var outJson = JSON.stringify(out, null, 4);
 	    console.log(outJson);
@@ -113,34 +114,34 @@ if(require.main == module) {
 	.option('-u, --url <url>', 'A valid URL', clone(assertValidURL))
 	.parse(process.argv);
 
-    var file = program.file;
-    var checks = program.checks;
-    var url = program.url;
+//    var file = program.file;
+//    var checks = program.checks;
+//    var url = program.url;
 
-    console.log("f=" + file);
-    console.log("c=" + checks);
-    console.log("u=" + url);
+//    console.log("f=" + file);
+//    console.log("c=" + checks);
+//    console.log("u=" + url);
 
-    console.log("argv=" + process.argv);
-    console.log("file=" + program.file);
-    console.log("url=" + program.url);
+//    console.log("argv=" + process.argv);
+//    console.log("file=" + program.file);
+//    console.log("url=" + program.url);
 
-    console.log(program.file === null);
-    console.log(program.checks === null);
-    console.log(program.url === null);
-    console.log(program.url === undefined);
-    console.log(program.checks !== undefined);
+//    console.log(program.file === null);
+//    console.log(program.checks === null);
+//    console.log(program.url === null);
+//    console.log(program.url === undefined);
+//    console.log(program.checks !== undefined);
 
     if(program.checks !== undefined && program.url !== undefined){
-// url check
-	console.log("voila");
+//      url check
+//	console.log("voila");
 	var urlhandler = handleurl(program.checks);
-	console.log(1);
+//	console.log(1);
 	rest.get(program.url).on('complete', urlhandler);
-	console.log(2);
+//	console.log(2);
     }
     else if(program.checks !== undefined && program.file !== undefined) {
-// file check
+//      file check
 	var checkJson = checkHtmlFile(program.file, program.checks);
 	var outJson = JSON.stringify(checkJson, null, 4);
 	console.log(outJson);
